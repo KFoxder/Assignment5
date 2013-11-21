@@ -17,6 +17,7 @@ public class SkiplistMapIterator<K extends Comparable<K>> implements Iterator<K>
 
 	private SkiplistMapNode<K,Object> curNode;
 	private SkiplistMapNode<K,Object> prevNode;
+	private SkiplistMapNode<K,Object> head;
 	private Integer version;
 	private SkiplistMap<K, ?> map;
 	
@@ -24,9 +25,9 @@ public class SkiplistMapIterator<K extends Comparable<K>> implements Iterator<K>
 	//Constructor
 	public SkiplistMapIterator(SkiplistMap<K,?> map){
 		if(map!=null){
-			SkiplistMapNode<K,Object> head = (SkiplistMapNode<K, Object>) map.getHead();
+			head = (SkiplistMapNode<K, Object>) map.getHead();
 			this.curNode = head;
-			this.prevNode  = null;
+			//this.prevNode  = null;
 			this.map = map;
 			this.version = map.getVersion();
 		}
@@ -43,9 +44,14 @@ public class SkiplistMapIterator<K extends Comparable<K>> implements Iterator<K>
 
 	@Override
 	public K next() {
-		if(curNode.next[0]!=null && this.versionSame()){
+		if(hasNext() && this.versionSame()){
 			K key = curNode.next[0].getKey();
-			prevNode = curNode;
+			if(prevNode==null){
+				prevNode = head;
+			}else{
+				prevNode = prevNode.next[0];
+				//put line belowe here set one above ot head
+			}
 			curNode = curNode.next[0];
 			return key;
 		}else{
@@ -60,15 +66,17 @@ public class SkiplistMapIterator<K extends Comparable<K>> implements Iterator<K>
 		map.version++;
 		this.version++;
 		boolean removeSuccess = false;
-		if(prevNode!=null && this.versionSame() && curNode!=null){
-			for(int currentLevel =0;currentLevel<this.map.MAX_LEVEL;currentLevel++){
+		if(this.versionSame() && curNode!=null&& prevNode!=null){
+			//CHANGE MAX LEVEL TO CURRENT NODES LEVEL
+			for(int currentLevel =0;currentLevel<=prevNode.getLevel();currentLevel++){
 				if(prevNode.next[currentLevel]==curNode){
 					prevNode.next[currentLevel]=curNode.next[currentLevel];
 				}else{
 					break;
 				}
 			}
-			curNode = curNode.next[0];
+			
+			//curNode = curNode.next[0];
 			removeSuccess = true;
 		}
 		System.out.println("Remove was successful = "+removeSuccess);

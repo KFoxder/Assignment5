@@ -14,6 +14,18 @@ public class SkiplistMapNode<K extends Comparable<K>,V> {
 
 	private K key;
 	private V value;
+	private Integer level;
+	
+	
+	public void setLevel(int lev){
+		if(lev>=0){
+			this.level = lev;
+		}
+	}
+	public Integer getLevel(){
+		return this.level;
+	}
+	
 	/**
 	 * Array of pointers to other nodes
 	 */
@@ -62,6 +74,7 @@ public class SkiplistMapNode<K extends Comparable<K>,V> {
 		if(newKey !=null && newValue!=null && newLevel!=null){
 			this.value = newValue;
 			this.key = newKey;
+			this.level = newLevel;
 			//We used +1 because we can get 0 passed in
 			this.next = (SkiplistMapNode<K,V>[]) new SkiplistMapNode[newLevel+1];
 		}
@@ -78,12 +91,14 @@ public class SkiplistMapNode<K extends Comparable<K>,V> {
 		if(isHead==true){
 			this.value = tempValue;
 			this.key = tempKey;
+			this.level = levels;
 			//We used +1 because we can get 0 passed in
 			this.next = new SkiplistMapNode[levels+1];
 		}else{
 			if(tempKey !=null && tempValue!=null && levels!=null){
 				this.value = tempValue;
 				this.key = tempKey;
+				this.level = levels;
 				this.next = new SkiplistMapNode[levels+1];
 			}
 
