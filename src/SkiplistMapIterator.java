@@ -55,7 +55,7 @@ public class SkiplistMapIterator<K extends Comparable<K>> implements Iterator<K>
 			curNode = curNode.next[0];
 			return key;
 		}else{
-			//Throw Excpetion?
+			//Throw Excpetion?????
 			return null;
 		}
 	}
