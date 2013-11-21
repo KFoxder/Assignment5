@@ -400,12 +400,4 @@ public class BSTMapNode<K extends Comparable<K>,V> {
 
 
 	}
-	public int numberOfNodesReached(int steps){
-		int numNodes = 0;
-
-
-		return numNodes;
-	}
-
-
 }

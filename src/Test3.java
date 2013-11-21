@@ -26,7 +26,7 @@ public class Test3 extends TestHarness {
 	
 	    return true;
 	}catch(Exception e){
-		//Threw wrong excpetion. 
+
 		return false;
 	}
     }

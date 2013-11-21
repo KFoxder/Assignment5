@@ -21,6 +21,9 @@ public class Test14 extends TestHarness {
 	SortedMap<Character, String> m = new BSTMap<Character,String>();
 	
 	try {
+		boolean test2 = false;
+		boolean test3 = false;
+		boolean test4 = false;
 		Iterator<Character> iter = m.iterator();
 		iter.remove();
 		if(iter.hasNext()!=false || iter.next()!=null){
@@ -32,10 +35,37 @@ public class Test14 extends TestHarness {
 		m.put('D',"1");
 		m.put('E',"1");
 		
-		Iterator<Character> iter2 = m.iterator();
-		if(iter2.hasNext()!=true || iter.hasNext()!=false){
+	
+		try{
+			iter.hasNext();
+		}catch(RuntimeException e){
+			test2 = true;
+		}
+		if(!test2){
 			return false;
 		}
+		try{
+			iter.next();
+		}catch(RuntimeException e){
+			test3 = true;
+		}
+		if(!test3){
+			return false;
+		}
+		try{
+			iter.remove();
+		}catch(RuntimeException e){
+			test4 = true;
+		}
+		if(!test4){
+			return false;
+		}
+		Iterator<Character> iter2 = m.iterator();
+		if(iter2.hasNext()!=true){
+			return false;
+		}
+		
+		
 		String test1 = "";
 		while(iter2.hasNext()){
 			Character c = iter2.next();

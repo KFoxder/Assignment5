@@ -20,43 +20,49 @@ public class SkiplistMapIterator<K extends Comparable<K>> implements Iterator<K>
 	private SkiplistMapNode<K,Object> head;
 	private Integer version;
 	private SkiplistMap<K, ?> map;
-	
-	
+
+
 	//Constructor
 	public SkiplistMapIterator(SkiplistMap<K,?> map){
 		if(map!=null){
 			head = (SkiplistMapNode<K, Object>) map.getHead();
 			this.curNode = head;
-			//this.prevNode  = null;
 			this.map = map;
 			this.version = map.getVersion();
 		}
 	}
 	@Override
 	public boolean hasNext() {
-		if(curNode.next[0]!=null && this.versionSame()){
-			return true;
+		if(this.versionSame()){
+			if(curNode.next[0]!=null){
+				return true;
+			}else{
+
+				return false;
+			}
 		}else{
-			//THrow Exceptions? 
-			return false;
+			throw new RuntimeException("Iterator has invalid version");
 		}
 	}
-
 	@Override
-	public K next() {
-		if(hasNext() && this.versionSame()){
-			K key = curNode.next[0].getKey();
-			if(prevNode==null){
-				prevNode = head;
+	public K next(){
+		if(this.versionSame()){
+
+
+			if(hasNext()){
+				K key = curNode.next[0].getKey();
+				if(prevNode==null){
+					prevNode = head;
+				}else if(prevNode.next[0]!=curNode.next[0]){
+					prevNode = prevNode.next[0];
+				}
+				curNode = curNode.next[0];
+				return key;
 			}else{
-				prevNode = prevNode.next[0];
-				//put line belowe here set one above ot head
+				return null;
 			}
-			curNode = curNode.next[0];
-			return key;
 		}else{
-			//Throw Excpetion?????
-			return null;
+			throw new RuntimeException("Iterator has invalid version");
 		}
 	}
 
@@ -66,23 +72,26 @@ public class SkiplistMapIterator<K extends Comparable<K>> implements Iterator<K>
 		map.version++;
 		this.version++;
 		boolean removeSuccess = false;
-		if(this.versionSame() && curNode!=null&& prevNode!=null){
-			//CHANGE MAX LEVEL TO CURRENT NODES LEVEL
-			for(int currentLevel =0;currentLevel<=prevNode.getLevel();currentLevel++){
-				if(prevNode.next[currentLevel]==curNode){
-					prevNode.next[currentLevel]=curNode.next[currentLevel];
-				}else{
-					break;
+		if(this.versionSame()){
+			if(curNode!=null&& prevNode!=null){
+
+				for(int currentLevel =0;currentLevel<=prevNode.getLevel();currentLevel++){
+					if(prevNode.next[currentLevel]==curNode){
+						prevNode.next[currentLevel]=curNode.next[currentLevel];
+					}else{
+						break;
+					}
 				}
+
+				removeSuccess = true;
 			}
-			
-			//curNode = curNode.next[0];
-			removeSuccess = true;
+			System.out.println("Remove was successful = "+removeSuccess);
+
+		}else{
+			throw new RuntimeException("Iterator has invalid version");
 		}
-		System.out.println("Remove was successful = "+removeSuccess);
-		
 	}
-	
+
 	private boolean versionSame(){
 		if(this.version == this.map.getVersion() ){
 			return true;

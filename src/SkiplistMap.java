@@ -90,8 +90,10 @@ public class SkiplistMap<K extends Comparable<K>,V> implements SortedMap<K,V> {
 			return null;
 		}else{
 			SkiplistMapNode<K, V> cur = this.head.next[0];
-			ArrayList<K> listOfKeys = new ArrayList<K>();
+			
 			//Create list of keys so we can search for them
+			ArrayList<K> listOfKeys = new ArrayList<K>();
+			
 			while(cur!=null){
 				listOfKeys.add(cur.getKey());
 				cur=cur.next[0];

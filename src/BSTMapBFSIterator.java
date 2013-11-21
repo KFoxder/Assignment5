@@ -54,52 +54,55 @@ public class BSTMapBFSIterator<K extends Comparable<K>> implements Iterator<K> {
 
 	@Override
 	public void remove() {
-		if(curNode!=null && versionSame()){
-			if(curNode.isLeaf()){
-				//case 2:
-				if(curNode == curNode.getParent().getLeft()){
-					curNode.getParent().setLeft(null);
-				}else{
-					curNode.getParent().setRight(null);
-				}
-			} else if(curNode.getLeft() == null){
-				//case 3
-				curNode.getRight().shiftNodeUp();
-			} else if(curNode.getRight() == null){
-				//case 3
-				curNode.getLeft().shiftNodeUp();
-			} else {
-				//case 4
-				//We know that there is some rightmost decendent
-				BSTMapNode<K,Object> rightmost = curNode.getLeft().getRightMostNode();
-				//updating in place makes it easier to handle the case of the root
-				curNode.setValue(rightmost.getValue());
-				curNode.setKey(rightmost.getKey());
-				//now we need to deal with the rightmost node
-				//and its children
-				if(rightmost.isLeaf()){
-					//case 4a
-					if(rightmost == rightmost.getParent().getLeft()){
-						rightmost.getParent().setLeft(null);
+		if(versionSame()){
+			if(curNode!=null){
+				if(curNode.isLeaf()&&curNode.getParent()!=null){
+					//case 2:
+					if(curNode == curNode.getParent().getLeft()){
+						curNode.getParent().setLeft(null);
 					}else{
-						rightmost.getParent().setRight(null);
+						curNode.getParent().setRight(null);
 					}
+				} else if(curNode.getParent()==null){
+					map.setRoot(null);
+				}else if(curNode.getLeft() == null){
+					//case 3
+					curNode.getRight().shiftNodeUp();
+				} else if(curNode.getRight() == null){
+					//case 3
+					curNode.getLeft().shiftNodeUp();
 				} else {
-					//case 4b
-					rightmost.getLeft().shiftNodeUp();
+					//case 4
+					//We know that there is some rightmost decendent
+					BSTMapNode<K,Object> rightmost = curNode.getLeft().getRightMostNode();
+					//updating in place makes it easier to handle the case of the root
+					curNode.setValue(rightmost.getValue());
+					curNode.setKey(rightmost.getKey());
+					//now we need to deal with the rightmost node
+					//and its children
+					if(rightmost.isLeaf()){
+						//case 4a
+						if(rightmost == rightmost.getParent().getLeft()){
+							rightmost.getParent().setLeft(null);
+						}else{
+							rightmost.getParent().setRight(null);
+						}
+					} else {
+						//case 4b
+						rightmost.getLeft().shiftNodeUp();
+					}
 				}
+
 			}
-
 		}else{
-			//Throw exception?
+			throw new RuntimeException("Iterator has invalid version");
 		}
-
 	}
 	private boolean versionSame(){
 		if(this.version == this.map.getVersion() ){
 			return true;
 		}else{
-			System.out.println("Version of original map has changed. New Iterator needed.");
+			
 			return false;
 		}
 	}

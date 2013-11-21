@@ -15,54 +15,83 @@ import java.util.Iterator;
 
 public class Test15 extends TestHarness {
 
-    public Test15(String s) { super(s); }
+	public Test15(String s) { super(s); }
 
-    public boolean test() { 
-	SortedMap<Character, String> m = new BSTMap<Character,String>();
-	
-	try {
-		m.put('F',"1");
-		m.put('B',"1");
-		m.put('A',"1");
-		m.put('D',"1");
-		m.put('E',"1");
-		Iterator<Character> iter = m.iterator();
-		m.remove('A');
-		if(iter.hasNext()!=false || iter.next()!=null){
-			return false;
-		}
-		Iterator<Character> iter2 = m.iterator();
-		m.put('A',"2");
-		if(iter2.hasNext()!=false || iter2.next()!=null){
-			return false;
-		}
-		Iterator<Character> iter3 = m.iterator();
-		m.get('A');
-		if(iter3.hasNext()!=true){
-			return false;
-		}
-		Iterator<Character> iter4 = m.iterator();
-		String test1 ="";
-		while(iter4.hasNext()){
-			Character c = iter4.next();
-			System.out.println(c);
-			if(c.equals('D')){
-				m.remove(c);
+	public boolean test() { 
+		SortedMap<Character, String> m = new BSTMap<Character,String>();
+
+		try {
+			boolean test3 = false, test5 = false, test4 = false;
+			m.put('F',"1");
+			m.put('B',"1");
+			m.put('A',"1");
+			m.put('D',"1");
+			m.put('E',"1");
+
+			Iterator<Character> iter = m.iterator();
+			m.remove('A');
+			try{
+				iter.next();
+				iter.hasNext();
+				iter.remove();
+			}catch(RuntimeException e){
+				test3 = true;
 			}
-			test1+=c;
-		}
+			if(!test3){
+				return false;
+			}
 
-		if(!test1.equals("ABD")){
+			Iterator<Character> iter4 = m.iterator();
+			m.put('A',"1");
+			try{
+				iter4.next();
+				iter4.hasNext();
+				iter4.remove();
+			}catch(RuntimeException e){
+				test4 = true;
+			}
+			if(!test4){
+				return false;
+			}
+
+			Iterator<Character> iter5 = m.iterator();
+			m.get('A');
+			try{
+				iter5.next();
+				iter5.hasNext();
+				iter5.remove();
+			}catch(RuntimeException e){
+				test5 = true;
+			}
+			if(test5){
+				return false;
+			}
+			m.put('A',"1");
+			Iterator<Character> iter6 = m.iterator();
+			String test1 ="";
+			try{
+				while(iter6.hasNext()){
+					Character c = iter6.next();
+					System.out.println(c);
+					if(c.equals('D')){
+						m.remove(c);
+					}
+					test1+=c;
+				}
+			}catch(Exception e){
+				
+			}
+
+			if(!test1.equals("ABD")){
+				return false;
+			}
+
+			return true;
+
+		}catch(Exception e){
+			//Threw wrong exception.
+			e.printStackTrace();
 			return false;
 		}
-	
-		
-		return true;
-
-	}catch(Exception e){
-		//Threw wrong exception.
-		e.printStackTrace();
-		return false;
 	}
-    }
 }

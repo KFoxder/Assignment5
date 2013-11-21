@@ -29,6 +29,8 @@ public class Test {
     	Test14 t14 = new Test14("t14");
     	Test15 t15 = new Test15("t15");
     	Test16 t16 = new Test16("t16");
+    	Test17 t17 = new Test17("t17");
+
 
 	// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	// %%%%% Register your new tests here, by extending this method %%%%%

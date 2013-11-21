@@ -28,11 +28,12 @@ public class Test8 extends TestHarness {
 		String test3 = m.get(3);
 		m.put(10, "Kevin");
 		String test4 = m.get(10);
-		if(test1.equals("Kevin")&&test2.equals("Mark")&&test3.equals("Joanna")&&test4.equals("Kevin")){
+		if(test1.equals("Kevin")&&test2.equals("Mark")&&test3.equals("Joanna")&&test4.equals("Kevin")&&m.toString().equals("1 Mark\n3 Joanna\n10 Kevin\n")){
 			return true;
 		}else{
 			return false;
 		}
+		
 	}catch(Exception e){
 		//Threw wrong exception. 
 		return false;

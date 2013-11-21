@@ -14,8 +14,8 @@ public class SpeedTest {
 	    	new SkiplistMap<String,Integer>(70);
 
 	    //Try the different files here
-	    //FileParser fp = new FileParser("WarAndPeace.txt");
-	     FileParser fp = new FileParser("RomeoJuliet.txt");
+	    FileParser fp = new FileParser("WarAndPeace.txt");
+	     //FileParser fp = new FileParser("RomeoJuliet.txt");
 	    //	FileParser fp = new FileParser("TWL06.txt");
 
 	    List<String> words = fp.getAllWords();

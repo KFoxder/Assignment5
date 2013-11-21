@@ -18,21 +18,22 @@ public class Test16 extends TestHarness {
     public Test16(String s) { super(s); }
 
     public boolean test() { 
-    	SortedMap<Character, String> m = new SkiplistMap<Character,String>();
+    	SortedMap<Character, String> m = new BSTMap<Character,String>();
 	
 	try {
-		m.put('C',"1");
+		m.put('F',"1");
 		m.put('B',"1");
 		m.put('A',"1");
+		m.put('C',"1");
 		m.put('D',"1");
+		m.put('X',"1");
 		m.put('E',"1");
-		//m.setIteratorDefault(BSTMap.VisitorOrder.POSTORDER);
-		//WHAT Happens if you call .remove() before .next()?
+		
 		System.out.println(m);
 		Iterator<Character> iter = m.iterator();
+		iter.remove();
 		while(iter.hasNext()){
-			Character c = iter.next();
-			System.out.println(c);
+			iter.next();
 			iter.remove();
 		}
 		System.out.println("");
@@ -40,8 +41,6 @@ public class Test16 extends TestHarness {
 			System.out.println(m);
 			return false;
 		}
-	
-		
 		return true;
 
 	}catch(Exception e){

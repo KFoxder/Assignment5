@@ -2,7 +2,8 @@ import java.util.Iterator;
 
 // ***********************************************************************
 //
-// Test11 -- Checks the remove() function
+// Test17 -- Checks the iterator() 
+// 			 
 //
 // ***********************************************************************
 // Computer Science 102: Data Structures
@@ -12,31 +13,36 @@ import java.util.Iterator;
 //
 // ***********************************************************************
 
-public class Test11 extends TestHarness {
+public class Test17 extends TestHarness {
 
-    public Test11(String s) { super(s); }
+    public Test17(String s) { super(s); }
 
     public boolean test() { 
-	SortedMap<Integer, String> m = new BSTMap<Integer,String>();
+    	SortedMap<Character, String> m = new BSTMap<Character,String>();
 	
 	try {
-		m.put(10, "Kevin");
-		m.put(1, "Mark");
-		m.put(2, "Noah");
-		m.put(12, "Got");
-		m.remove(4);
-		if(!m.toString().equals("1 Mark\n2 Noah\n10 Kevin\n12 Got\n")){
-			System.out.println("False here -1");
+		m.put('F',"F");
+		m.put('B',"B");
+		m.put('A',"A");
+		m.put('C',"C");
+		m.put('D',"D");
+		m.put('X',"X");
+		m.put('E',"E");
+		
+		Iterator<Character> iter = m.iterator();
+		iter.next();
+		iter.remove();
+		if(!m.toString().equals("B B\nC C\nD D\nE E\nF F\nX X\n")){
 			return false;
 		}
-		System.out.println(m);
-		boolean test1 = m.remove(10);
-		String test2 = m.get(10);
-		if(test1!=true || !m.toString().equals("1 Mark\n2 Noah\n12 Got\n") || test2!=null){
-			System.out.println(m);
+		iter.next();
+		iter.remove();
+		if(!m.toString().equals("C C\nD D\nE E\nF F\nX X\n")){
 			return false;
 		}
+		
 		return true;
+
 	}catch(Exception e){
 		//Threw wrong exception.
 		e.printStackTrace();

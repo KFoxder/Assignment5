@@ -2,7 +2,7 @@ import java.util.Iterator;
 
 // ***********************************************************************
 //
-// Test13 -- Checks the remove() function
+// Test13 -- Checks the calculateStats() function
 //
 // ***********************************************************************
 // Computer Science 102: Data Structures
