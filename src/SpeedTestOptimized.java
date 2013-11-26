@@ -11,18 +11,22 @@ public class SpeedTestOptimized {
 		try{
 			LinkedHashMap<SortedMap<String,Integer>,String> maps = new LinkedHashMap<SortedMap<String,Integer>,String>();
 			SortedMap<String,Integer> bstMap = new BSTMap<String,Integer>();
-			SortedMap<String,Integer> skiplistMap = new SkiplistMap<String,Integer>(60);
+			for(double i=0.1;i<=0.9;i+=0.2){
+				SortedMap<String,Integer> skiplistMap = new SkiplistMap<String,Integer>(50,i);
+				maps.put(skiplistMap, ("SkiplistMap "+"w/ prob "+i));
+			}
+			//SortedMap<String,Integer> skiplistMap = new SkiplistMap<String,Integer>(50,0.3);
 			//maps.put(bstMap, "BSTMap");
-			maps.put(skiplistMap, "SkiplistMap");
+			//maps.put(skiplistMap, "SkiplistMap");
 
 			LinkedHashMap<FileParser,String> fileParsers = new LinkedHashMap<FileParser,String>();
 
 			FileParser fpRomeo = new FileParser("RomeoJuliet.txt");
 			FileParser fpWar = new FileParser("WarAndPeace.txt");
 			FileParser fpScrabble = new FileParser("TWL06.txt");
-			//fileParsers.put(fpRomeo, "Romeo & Juliet");
+			fileParsers.put(fpRomeo, "Romeo & Juliet");
 			//fileParsers.put(fpWar, "War And Peace");
-			fileParsers.put(fpScrabble, "Scrabble Dictionary");
+			//fileParsers.put(fpScrabble, "Scrabble Dictionary");
 
 			FileParser dict = new FileParser("TWL06.txt");//list of scrabble words
 			List<String> dictWords = dict.getAllWords();
